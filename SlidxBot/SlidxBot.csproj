@@ -54,6 +54,7 @@
     <Compile Include="MinecraftUtility.cs" />
     <Compile Include="RedditTask.cs" />
     <Compile Include="RMcServersTask.cs" />
+    <Compile Include="ConfigurationSample.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
