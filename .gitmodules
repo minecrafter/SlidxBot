@@ -1,0 +1,6 @@
+[submodule "craftnet"]
+	path = craftnet
+	url = https://github.com/SirCmpwn/Craft.Net.git
+[submodule "redditsharp"]
+	path = redditsharp
+	url = https://github.com/SirCmpwn/RedditSharp.git

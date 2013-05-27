@@ -1,0 +1,21 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="MONO" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SlidxBot/RedditTask.cs">
+    <Files>
+      <File FileName="SlidxBot/Main.cs" Line="20" Column="2" />
+      <File FileName="SlidxBot/MinecraftUtility.cs" Line="65" Column="41" />
+      <File FileName="SlidxBot/RedditTask.cs" Line="47" Column="118" />
+      <File FileName="SlidxBot/RMcServersTask.cs" Line="12" Column="80" />
+      <File FileName="SlidxBot/Configuration.cs" Line="8" Column="43" />
+      <File FileName="redditsharp/RedditSharp/Comment.cs" Line="145" Column="43" />
+      <File FileName="redditsharp/RedditSharp/Subreddit.cs" Line="121" Column="18" />
+      <File FileName="redditsharp/RedditSharp/RedditUser.cs" Line="49" Column="3" />
+      <File FileName="redditsharp/RedditSharp/VotableThing.cs" Line="8" Column="22" />
+      <File FileName="redditsharp/RedditSharp/Reddit.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
