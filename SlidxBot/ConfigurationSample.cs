@@ -2,7 +2,7 @@ using System;
 
 namespace SlidxBot
 {
-	public static class Configuration
+	public static class SampleConfiguration // Remove "Sample" from the name!
 	{
 		//
 		// ####### THIS IS A SAMPLE FILE! #######
