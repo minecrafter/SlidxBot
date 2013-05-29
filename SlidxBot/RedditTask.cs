@@ -39,6 +39,9 @@ namespace SlidxBot
 				} catch (InvalidOperationException) {
 					Console.WriteLine (System.DateTime.Now.ToString () + ": Nothing to moderate! :D Chilling it out...");
 					Thread.Sleep (80000);
+				} catch (IndexOutOfRangeException) {
+					Console.WriteLine (System.DateTime.Now.ToString () + ": An error was encountered while fetching posts. Waiting it out...");
+					Thread.Sleep (90000);
 				}
 			}
 		}

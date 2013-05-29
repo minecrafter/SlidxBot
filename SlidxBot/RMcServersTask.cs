@@ -27,29 +27,35 @@ namespace SlidxBot
 				RedditUtility.CommentOnPost (p, "Your post was removed because it is smaller than 300 bytes. This usually means that you are not following the [description formatting](http://www.reddit.com/r/mcservers/wiki/index#wiki_description_formatting).");
 				return;
 			}
-			string[] self = p.SelfText.Split (' ');
+			// De-markdownize the post
+			string po = p.SelfText.Replace ("*", "").Replace ("`", "").Replace ("^", "").Replace ("~", "");
+			string[] self = po.Split (' ');
 			MinecraftUtility.ServerStatus okay = MinecraftUtility.ServerStatus.Undefined;
 			Console.WriteLine (System.DateTime.Now.ToString () + ": Checking for IPv4 addresses and FQDNs...");
 			foreach (var s in self) {
-				if (s.Contains (".") && !s.Contains ("http") && s.Split (null) [0].Split ('.').Length >= 2 && !s.Contains ("@")) {
-					var s2 = s.Split (null) [0].Replace ("*", "").Replace ("`", "").Replace ("^", "").Replace ("~", "").Trim ();
+				if (s.Contains (".") && !s.Contains ("http") && s.Split (null) [0].Split ('.').Length >= 2 && !s.Contains ("@") && !s.Contains ("www")) {
+					var s2 = s.Split (null) [0].Trim ();
 					var likely = false;
 					// Let's check some stuff out...
 					// IPs are like 192.30.35.246
 					var s3 = s2;
 					if (s3.Contains (":")) {
-						s3 = s3.Split (':') [0];
-						// It needs to look like an IP to me!
 						try {
-							long.Parse (s3.Replace (".", ""));
-						} catch (FormatException) {
-							// BINGO!
-							s3 = s2.Split (':') [1];
-							if (s3.Split (':').Length >= 3) {
-								s2 = s3 + ":" + s2.Split (':') [2];
+							if (s3.Split (':') [1].Contains (".")) {
+								// A IPv4 address or DNS name.
+								s3 = s3.Split (':') [1];
+								if (s2.Split (':').Length > 2) {
+									s2 = s3 + ":" + s2.Split (':') [2];
+								} else {
+									s2 = s3;
+								}
 							} else {
-								s2 = s3;
+								s3 = s3.Split (':') [0];
 							}
+						} catch (IndexOutOfRangeException) {
+							Console.WriteLine (System.DateTime.Now.ToString () + ": Can't extract any addresses!");
+							Console.WriteLine (System.DateTime.Now.ToString () + ": I choked on " + s2 + ".");
+							return;
 						}
 					}
 					try {
@@ -118,19 +124,20 @@ namespace SlidxBot
 							okay = MinecraftUtility.ServerStatus.Offline;
 						}
 					}
-					if (okay == MinecraftUtility.ServerStatus.OnlineMode || okay == MinecraftUtility.ServerStatus.OfflineMode)
+					if (okay == MinecraftUtility.ServerStatus.OnlineMode)
 						return;
+					if (okay == MinecraftUtility.ServerStatus.OfflineMode) {
+						p.RemoveSpam ();
+						Console.WriteLine (System.DateTime.Now.ToString () + ": Server is in offline mode!");
+						RedditUtility.CommentOnPost (p, "Your post was removed because your Minecraft server is in offline mode. Either change online-mode to true in your server.properties or post to /r/mctestservers.");
+						return;
+					}
 				}
 			}
 			if (okay == MinecraftUtility.ServerStatus.Offline) {
 				p.RemoveSpam ();
 				Console.WriteLine (System.DateTime.Now.ToString () + ": Server is offline!");
-				RedditUtility.CommentOnPost (p, "Your post was removed because your Minecraft server is offline. Make sure the server has been started and you can connect to it.");
-			}
-			if (okay == MinecraftUtility.ServerStatus.OfflineMode) {
-				p.RemoveSpam ();
-				Console.WriteLine (System.DateTime.Now.ToString () + ": Server is in offline mode!");
-				RedditUtility.CommentOnPost (p, "Your post was removed because your Minecraft server is in offline mode. Either change online-mode to true in your server.properties or post to /r/mctestservers.");
+				RedditUtility.CommentOnPost (p, "Your post was removed because your Minecraft server is offline. Make sure the server has been started and you can connect to it. If this is true, it is either a temporary network problem or I wasn't able to extract your IP address.");
 			}
 		}
 	}
