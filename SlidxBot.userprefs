@@ -2,11 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="MONO" />
   <MonoDevelop.Ide.Workbench ActiveDocument="SlidxBot/RMcServersTask.cs">
     <Files>
-      <File FileName="SlidxBot/RMcServersTask.cs" Line="127" Column="14" />
-      <File FileName="SlidxBot/Configuration.cs" Line="15" Column="36" />
-      <File FileName="SlidxBot/RedditTask.cs" Line="19" Column="76" />
-      <File FileName="SlidxBot/MinecraftUtility.cs" Line="66" Column="107" />
+      <File FileName="SlidxBot/RMcServersTask.cs" Line="50" Column="5" />
+      <File FileName="SlidxBot/Configuration.cs" Line="19" Column="1" />
+      <File FileName="SlidxBot/RedditTask.cs" Line="21" Column="10" />
+      <File FileName="SlidxBot/MinecraftUtility.cs" Line="38" Column="33" />
       <File FileName="SlidxBot/ConfigurationSample.cs" Line="12" Column="43" />
+      <File FileName="SlidxBot/Main.cs" Line="15" Column="35" />
+      <File FileName="redditsharp/RedditSharp/Post.cs" Line="9" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,9 +16,12 @@
           <Node name="Craft.Net" expanded="True" />
           <Node name="Craft.Net.Client" expanded="True" />
           <Node name="Craft.Net.Data" expanded="True" />
-          <Node name="fNbt" expanded="True" selected="True" />
+          <Node name="fNbt" expanded="True" />
           <Node name="RedditSharp" expanded="True" />
-          <Node name="SlidxBot" expanded="True" />
+          <Node name="SlidxBot" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="RMcServersTask.cs" selected="True" />
+          </Node>
         </State>
       </Pad>
     </Pads>

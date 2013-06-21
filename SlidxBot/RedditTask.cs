@@ -21,7 +21,13 @@ namespace SlidxBot
 				try {
 					Console.WriteLine (System.DateTime.Now.ToString () + ": Looking through " + subreddit.ToString () + " unmoderated queue");
 					var newQueuePosts = subreddit.GetUnmoderatedLinks ();
-					var latest2 = newQueuePosts.Skip (newQueuePosts.Count () - 2).First ();
+					// Reddit won't let us fetch more than 25 posts at a time.
+					var latest2 = newQueuePosts.Skip (1).First();
+					if (newQueuePosts.Count () - 2 <= 24) {
+						latest2 = newQueuePosts.Skip (newQueuePosts.Count () - 2).First ();
+					} else {
+						latest2 = newQueuePosts.Skip (24).First ();
+					}
 					// Gets all posts since the last post checked
 					var toCheck2 = newQueuePosts.TakeWhile (p => p != latest2).ToArray ();
 					// For now...

@@ -45,6 +45,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="DnDns">
+      <HintPath>DnDns.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

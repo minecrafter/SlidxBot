@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using Craft.Net.Client;
+using DnDns.Enums;
+using DnDns.Query;
+using DnDns.Records;
+using DnDns.Security;
 
 namespace SlidxBot
 {
@@ -19,9 +23,22 @@ namespace SlidxBot
 		{
 			IPAddress address;
 			int port;
+			// Resolve the SRV record, first.
+			string tmp = arg;
+			if (tmp.Contains (":"))
+				tmp = tmp.Split (':') [0];
+			DnsQueryResponse response = new DnsQueryRequest ().Resolve ("_minecraft._tcp." + tmp, NsType.SRV, NsClass.INET, ProtocolType.Udp);
+			if (response.Answers.Length > 0 && (response.Answers [0] is SrvRecord)) {
+				// Take the first record.
+				SrvRecord r = (response.Answers [0] as SrvRecord);
+				arg = r.HostName.Substring (0, r.HostName.Length - 1) + ":" + r.Port;
+			}
 			if (arg.Contains (":")) {
 				// Both IP and port are specified
 				var parts = arg.Split (':');
+				if (parts[1] == "") {
+					parts[1] = "25565";
+				}
 				if (!IPAddress.TryParse (parts [0], out address))
 					address = Resolve (parts [0]);
 				return new IPEndPoint (address, int.Parse (parts [1]));
@@ -36,6 +53,11 @@ namespace SlidxBot
 		private static IPAddress Resolve (string arg)
 		{
 			return Dns.GetHostEntry (arg).AddressList [0];
+		}
+
+		public static ServerStatus IsOnline (string ep)
+		{
+			return IsOnline (ParseEndPoint(ep));
 		}
 
 		public static ServerStatus IsOnline (IPEndPoint endPoint)
@@ -62,8 +84,11 @@ namespace SlidxBot
 				{
 					Console.WriteLine (System.DateTime.Now.ToString () + ": Disconnected from server: " + e.Reason);
 					if (e.Reason.Contains ("Failed to verify username!")) onlineMode = ServerStatus.OnlineMode;
-					// This message is from BungeeCord?
+					// This message is from BungeeCord.
 					if (e.Reason.Contains ("Not authenticated with Minecraft.net")) onlineMode = ServerStatus.OnlineMode;
+					// Old * reasons.
+					if (e.Reason.Contains ("Outdated server!")) onlineMode = ServerStatus.OnlineMode;
+					if (e.Reason.Contains ("Outdated client!")) onlineMode = ServerStatus.OnlineMode;
 					reset.Set ();
 				};
 				client.Connect (endPoint);
